@@ -18,6 +18,10 @@ public class Plane : MonoBehaviour
     Transform transform;
     public Sprite[] planeSprites = new Sprite[4];
 
+    private bool isInDangerZone = false;
+    public float dangerZoneRadius = 2.0f;
+    public float tooCloseDistance = 0.5f;
+
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -46,7 +50,18 @@ public class Plane : MonoBehaviour
 
     private void Update()
     {
-        if(Input .GetKey(KeyCode.Space))
+        Vector3 planePosition = transform.position;
+
+        Vector3 screenPoint = Camera.main.WorldToViewportPoint(planePosition);
+
+        bool isOutsideScreen = screenPoint.x < 0 || screenPoint.y < 0 || screenPoint.x > 1 || screenPoint.y > 1;
+
+        if (isOutsideScreen)
+        {
+            Destroy(gameObject);
+        }
+
+        if (Input .GetKey(KeyCode.Space))
         {
             timerValue += 0.5f * Time.deltaTime;
             float interpolation = landing.Evaluate (timerValue);
@@ -70,6 +85,34 @@ public class Plane : MonoBehaviour
                     lineRenderer.SetPosition(i, lineRenderer.GetPosition(i + 1));
                 }
                 lineRenderer.positionCount--;
+
+            }
+        }
+
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, dangerZoneRadius);
+
+        bool foundInDangerZone = false;
+
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.gameObject != gameObject)
+            {
+                foundInDangerZone = true;
+                DestroyIfTooClose(collider);
+            }
+        }
+
+        if (foundInDangerZone != isInDangerZone)
+        {
+            isInDangerZone = foundInDangerZone;
+
+            if (isInDangerZone)
+            {
+                GetComponent<SpriteRenderer>().color = Color.red;
+            }
+            else
+            {
+                GetComponent<SpriteRenderer>().color = Color.white;
             }
         }
     }
@@ -92,4 +135,17 @@ public class Plane : MonoBehaviour
             lastPosition = newPosition;
         }
     }
+    void DestroyIfTooClose(Collider2D other)
+    {
+        Vector3 currentPosition3D = new Vector3(transform.position.x, transform.position.y, 0);
+        Vector3 otherPosition3D = new Vector3(other.transform.position.x, other.transform.position.y, 0);
+
+        float distance = Vector3.Distance(currentPosition3D, otherPosition3D);
+        if (distance < tooCloseDistance)
+        {
+            Destroy(other.gameObject);
+        }
+    }
+
+ 
 }
