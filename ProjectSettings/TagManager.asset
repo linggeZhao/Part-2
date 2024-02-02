@@ -3,12 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Runway
+  - Plane
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Runway
   - Water
   - UI
   - 

@@ -22,6 +22,9 @@ public class Plane : MonoBehaviour
     public float dangerZoneRadius = 2.0f;
     public float tooCloseDistance = 0.5f;
 
+    public bool isLanding = false;
+
+
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -61,7 +64,7 @@ public class Plane : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (Input .GetKey(KeyCode.Space))
+        if (isLanding)
         {
             timerValue += 0.5f * Time.deltaTime;
             float interpolation = landing.Evaluate (timerValue);
@@ -143,9 +146,7 @@ public class Plane : MonoBehaviour
         float distance = Vector3.Distance(currentPosition3D, otherPosition3D);
         if (distance < tooCloseDistance)
         {
-            Destroy(other.gameObject);
+            Destroy(gameObject);
         }
     }
-
- 
 }

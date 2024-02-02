@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5074903121050184473}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Plane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -180,7 +180,25 @@ MonoBehaviour:
   speed: 1
   landing:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -189,6 +207,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 24c052ba7e2db304696a436c1d715f04, type: 3}
   - {fileID: 21300000, guid: 6bf9530ecd83c664099aa71dd0a5223e, type: 3}
   - {fileID: 21300000, guid: 3c91ca5ea46cd97409cdc7acb86e3523, type: 3}
+  dangerZoneRadius: 2
+  tooCloseDistance: 0.5
+  isLanding: 0
 --- !u!120 &5074903121050184473
 LineRenderer:
   serializedVersion: 2
