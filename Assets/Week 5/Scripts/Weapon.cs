@@ -10,6 +10,7 @@ public class Weapon : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        Destroy(gameObject,5); 
     }
 
     private void FixedUpdate()
