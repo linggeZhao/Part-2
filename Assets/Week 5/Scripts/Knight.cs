@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class Knight : MonoBehaviour
@@ -10,11 +11,15 @@ public class Knight : MonoBehaviour
     Rigidbody2D rb;
     Animator animator;
     bool clickingOnself = false;
+    public float health;
+    public float maxHealth = 5;
+    
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = rb.GetComponent<Animator>();
+        health = maxHealth;
     }
 
     private void FixedUpdate()
@@ -42,10 +47,27 @@ public class Knight : MonoBehaviour
     private void OnMouseDown()
     {
         clickingOnself  = true;
-        animator.SetTrigger("TakeDamage");
+        SendMessage("TakeDamage", 1);
+        
     }
     private void OnMouseUp()
     {
         clickingOnself = false;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        //Debug.Log(damage);
+        health -= damage;
+        health = Mathf.Clamp(health, 0, maxHealth);
+        if(health == 0)
+        {
+            //die?
+            animator.SetTrigger("Death");
+        }
+        else
+        {
+            animator.SetTrigger("TakeDamage");
+        }
     }
 }
