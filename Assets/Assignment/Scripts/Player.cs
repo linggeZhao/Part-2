@@ -8,23 +8,26 @@ public class Player : MonoBehaviour
 {
     Vector2 destination;
     Vector2 movement;
-    public float speed = 5;
+    public float speed = 10;
     bool isMoving = false;
     Rigidbody2D rb;
     Animator animator;
     public float blood;
     public float maxBlood = 1;
     bool isDead = false;
+    public BloodBar bloodBar;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        bloodBar = GetComponent<BloodBar>();
     }
 
     void Update()
     {
         if (isDead) return;
+        Debug.Log(isDead);
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -53,7 +56,8 @@ public class Player : MonoBehaviour
         rb.MovePosition(rb.position + movement.normalized * speed * Time.deltaTime);
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("BlueBall"))
         {
@@ -61,16 +65,8 @@ public class Player : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("RedBall"))
         {
-            SendMessage("TakeDamage", 1);
+            TakeDamage(1);
             GetComponent<SpriteRenderer>().color = Color.black;
-        }
-    }
-
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("RedBall"))
-        {
-            GetComponent<SpriteRenderer>().color = Color.green;
         }
     }
 
@@ -79,6 +75,7 @@ public class Player : MonoBehaviour
         blood -= damage;
 
         blood = Mathf.Clamp(blood, 0, maxBlood);
+        bloodBar.TakeDamage(damage);
 
         PlayerPrefs.SetFloat("PlayerBlood", blood);
         if (blood == 0)
@@ -87,5 +84,14 @@ public class Player : MonoBehaviour
             GetComponent<SpriteRenderer>().color = Color.black;
             isMoving = false;
         }
+    }
+
+    public void ResetBlood()
+    {
+        blood = maxBlood;
+        bloodBar.SetBlood(blood);
+        GetComponent<SpriteRenderer>().color = Color.green;
+        isDead = false;
+        isMoving = true;
     }
 }
