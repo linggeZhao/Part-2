@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Runway
   - Plane
+  - BlueBall
   layers:
   - Default
   - TransparentFX
