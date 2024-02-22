@@ -3,6 +3,8 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.VisualScripting;
+using TMPro;
 
 public class Controller : MonoBehaviour
 {
@@ -11,6 +13,9 @@ public class Controller : MonoBehaviour
     public float maxCharge = 1;
     Vector2 direction;
     public static SoccerPlayer SelectedPlayer { get; private set; }
+
+    public static int score;
+    public TextMeshProUGUI scoreText;
     public static void SetSelectedPlayer(SoccerPlayer player)
     {
         if(SelectedPlayer != null)
@@ -51,5 +56,7 @@ public class Controller : MonoBehaviour
         {
             direction = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)SelectedPlayer.transform.position).normalized * charge ;
         }
+
+        scoreText.text = score.ToString();
     }
 }

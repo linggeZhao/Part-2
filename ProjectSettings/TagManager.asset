@@ -8,6 +8,7 @@ TagManager:
   - Plane
   - BlueBall
   - RedBall
+  - Goal
   layers:
   - Default
   - TransparentFX
